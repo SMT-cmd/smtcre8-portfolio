@@ -29,3 +29,17 @@ test('work directory indexes SkillForge projects and proper brand assets',()=>{
  assert.ok(read('public/assets/projects/homefit-official.svg').includes('data:image/webp;base64'));
  assert.ok(read('public/assets/projects/metaforge-brand.svg').includes('MetaForge'));
 });
+
+
+test('original extracted S8 and SkillForge source artwork are published',()=>{
+ const homepage=read('public/index.html');
+ const directory=read('public/work/index.html');
+ assert.ok(homepage.includes('/assets/s8-original-transparent.webp'));
+ for (const page of [homepage,directory]) assert.ok(page.includes('/assets/projects/skillforge-official.jpg'));
+ const webp=readFileSync(new URL('../public/assets/s8-original-transparent.webp',import.meta.url));
+ assert.equal(webp.subarray(0,4).toString(),'RIFF');
+ assert.equal(webp.subarray(8,12).toString(),'WEBP');
+ assert.ok(webp.length>25000,'the hero must not regress to the tiny embedded preview');
+ const jpeg=readFileSync(new URL('../public/assets/projects/skillforge-official.jpg',import.meta.url));
+ assert.equal(jpeg[0],0xff); assert.equal(jpeg[1],0xd8);
+});
