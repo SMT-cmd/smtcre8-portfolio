@@ -11,12 +11,12 @@
  search?.addEventListener('input',applyFilter);filter?.addEventListener('change',applyFilter);
  document.querySelectorAll('img[data-fallback-image]').forEach(img => img.addEventListener('error', () => {img.hidden=true;if(img.nextElementSibling)img.nextElementSibling.hidden=false;}));
 
- // Approved original S8 is temporary until the three-logo family decision.
+ // Keep the accepted S8 artwork, without inventing a replacement identity.
  document.querySelectorAll('.wordmark').forEach(mark=>{
    if(mark.querySelector('img'))return;
    const icon=document.createElement('img');
    icon.src='/assets/s8-approved-preview.svg';
-   icon.width=42;icon.height=38;icon.alt='';icon.decoding='async';
+   icon.width=42;icon.height=38;icon.alt='';icon.decoding='async';icon.setAttribute('aria-hidden','true');
    mark.insertBefore(icon,mark.firstChild);
  });
  let theme='light';

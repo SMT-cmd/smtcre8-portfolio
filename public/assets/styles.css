@@ -190,3 +190,19 @@ html[data-theme="dark"] .s8-hero-art{background:transparent}
 .contact-project-context{padding:14px 16px;border:1px solid var(--line);background:var(--soft);border-radius:10px;margin-bottom:24px;font-size:13px;color:var(--ink)}
 @media(max-width:950px){.s8-hero-art{min-height:340px;max-height:420px}.s8-hero-art img{width:min(85%,520px);transform:translateX(15%)}}
 @media(max-width:540px){.s8-hero-art{min-height:210px;max-height:280px;justify-content:flex-end}.s8-hero-art img{width:min(80%,320px);transform:translateX(10%)}.portfolio-book{grid-template-columns:90px 1fr;gap:15px;padding:15px}.portfolio-book img{width:90px}.portfolio-book h3{font-size:19px}.detail-visual .project-identity-logo{min-height:330px}}
+
+/* Responsive featured brand area and real-name project placeholders. */
+.ref-hero{min-width:0}
+.s8-hero-art{width:100%;min-width:0;overflow:visible;isolation:isolate}
+.s8-hero-art img{width:100%;max-width:620px;max-height:min(52vw,520px);transform:none;object-fit:contain;object-position:right center}
+.project-nameplate{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;padding:clamp(12px,2.5vw,34px);text-align:center;color:var(--ink)}
+.project-nameplate strong{font-size:clamp(20px,2.5vw,32px);line-height:1.1;overflow-wrap:anywhere}
+.project-nameplate span{font-size:12px;color:var(--muted);margin-top:10px}
+@media(max-width:950px){.s8-hero-art{max-height:none}.s8-hero-art img{width:100%;max-width:520px;max-height:360px;transform:none}}
+@media(max-width:540px){.s8-hero-art{min-height:170px;max-height:none;justify-content:center}.s8-hero-art img{width:min(100%,310px);max-height:260px;transform:none}}
+
+/* Header logo: eliminate the artificial white tile and tighten alignment with the wordmark. */
+.site-header .wordmark{display:inline-flex;align-items:center;gap:3px;min-width:0}
+.site-header .wordmark img{display:block;width:clamp(32px,3.1vw,42px);height:clamp(32px,3.1vw,42px);object-fit:contain;flex:none;padding:0;margin:0 2px 0 0;background:transparent;border:0;border-radius:0;box-shadow:none}
+html[data-theme="dark"] .site-header .wordmark img{background:transparent;border:0;box-shadow:none}
+@media(max-width:760px){.site-header .wordmark{gap:2px}.site-header .wordmark img{width:34px;height:34px;margin-right:1px}}
