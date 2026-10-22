@@ -10,6 +10,34 @@
  function applyFilter(){const normalise=s=>(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');const q=normalise(search?.value),cat=filter?.value||'all';const cards=[...document.querySelectorAll('#projectsGrid .case-card')];let count=0;cards.forEach(card=>{const match=(cat==='all'||card.dataset.category===cat)&&normalise(card.dataset.keywords).includes(q);card.hidden=!match;if(match)count++;});const countEl=document.getElementById('resultsCount'),noResults=document.getElementById('noResults');if(countEl)countEl.textContent=`${count} project${count===1?'':'s'} shown`;if(noResults)noResults.hidden=count>0;}
  search?.addEventListener('input',applyFilter);filter?.addEventListener('change',applyFilter);
  document.querySelectorAll('img[data-fallback-image]').forEach(img => img.addEventListener('error', () => {img.hidden=true;if(img.nextElementSibling)img.nextElementSibling.hidden=false;}));
+
+ // Approved original S8 is temporary until the three-logo family decision.
+ document.querySelectorAll('.wordmark').forEach(mark=>{
+   if(mark.querySelector('img'))return;
+   const icon=document.createElement('img');
+   icon.src='/assets/s8-approved-preview.svg';
+   icon.width=42;icon.height=38;icon.alt='';icon.decoding='async';
+   mark.insertBefore(icon,mark.firstChild);
+ });
+ let theme='light';
+ try{theme=localStorage.getItem('smtcre8-theme')==='dark'?'dark':'light';}catch(e){}
+ document.documentElement.dataset.theme=theme;
+ const themeButton=document.createElement('button');
+ themeButton.type='button';themeButton.className='theme-toggle';
+ const syncTheme=()=>{
+   const dark=document.documentElement.dataset.theme==='dark';
+   themeButton.textContent=dark?'☀ Light mode':'☾ Dark mode';
+   themeButton.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');
+   themeButton.setAttribute('aria-pressed',String(dark));
+ };
+ syncTheme();
+ themeButton.addEventListener('click',()=>{
+   const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+   document.documentElement.dataset.theme=next;
+   try{localStorage.setItem('smtcre8-theme',next);}catch(e){}
+   syncTheme();
+ });
+ menu?.appendChild(themeButton);
  const form=document.getElementById('enquiryForm');if(!form)return;
  const status=document.getElementById('formStatus'),btn=form.querySelector('button[type=submit]'),mount=document.getElementById('turnstileMount');
  const params=new URLSearchParams(location.search),kind=params.get('type');if(['project','partnership','consultation','general'].includes(kind))form.elements.kind.value=kind;
