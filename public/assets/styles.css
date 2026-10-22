@@ -145,3 +145,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .ref-signoff{padding:60px 0}
 }
 @media(max-width:450px){.ref-browser-frame{min-height:190px}.ref-browser-frame img{height:210px}.ref-hero h1{font-size:45px}.ref-project-top{height:190px}.ref-approach{grid-template-columns:1fr}.ref-step{min-height:auto}.ref-step .num{margin-bottom:14px}.ref-browser-foot{padding:15px}.nav-inner{gap:8px}}
+
+/* Image-unavailable state: never replace screenshots with fabricated pictures. */
+.ref-project-top>.clean-name[hidden],.ref-browser-frame>.clean-name[hidden]{display:none!important}
+.ref-project-top>.clean-name:not([hidden]){display:block;position:relative;z-index:1;font-size:34px;letter-spacing:-.045em;font-weight:800;color:#18375b}
+.ref-browser-frame>.clean-name:not([hidden]){display:block;padding:46px;font-size:43px;font-weight:800;color:#173458}
+.ref-browser-frame:has(img[hidden]),.ref-project-top:has(img[hidden]){background:var(--soft)}
