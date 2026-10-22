@@ -213,3 +213,69 @@ html[data-theme="dark"] .site-header .wordmark img{background:transparent;border
 .s8-hero-art img{height:100%;min-height:420px;width:150%;max-width:none;max-height:none;object-fit:contain;object-position:right center;transform:translateX(36%)}
 @media(max-width:950px){.ref-hero{overflow:hidden}.s8-hero-art{margin-right:-18px;min-height:310px;max-height:460px}.s8-hero-art img{min-height:310px;max-height:none;max-width:none;width:120%;transform:translateX(22%)}}
 @media(max-width:540px){.s8-hero-art{min-height:230px;max-height:340px;margin-right:-17px}.s8-hero-art img{min-height:230px;width:140%;max-width:none;transform:translateX(29%)}}
+
+
+/* 2026-10-22: The original S8 sits BEHIND hero copy on phones/tablets.
+   Its container is removed from document flow so it does not add another row. */
+@media (max-width:950px) {
+  .ref-hero {
+    display:block;
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    padding-block:clamp(55px,8vw,86px);
+  }
+  .ref-hero > div:first-child {
+    position:relative;
+    z-index:2;
+    max-width:720px;
+  }
+  .ref-hero .s8-hero-art {
+    position:absolute;
+    inset:0;
+    display:block;
+    z-index:0;
+    width:100%;
+    height:100%;
+    min-height:0;
+    max-height:none;
+    margin:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .ref-hero .s8-hero-art img {
+    position:absolute;
+    top:50%;
+    right:-17%;
+    width:clamp(400px,90vw,760px);
+    height:auto;
+    min-height:0;
+    max-height:none;
+    max-width:none;
+    object-fit:contain;
+    object-position:center;
+    opacity:.13;
+    filter:none;
+    transform:translateY(-50%);
+  }
+}
+@media (max-width:540px) {
+  .ref-hero { padding-block:62px 58px; }
+  .ref-hero .s8-hero-art { min-height:0; max-height:none; margin:0; }
+  .ref-hero .s8-hero-art img {
+    top:44%;
+    right:-58%;
+    width:clamp(480px,146vw,720px);
+    min-height:0;
+    max-height:none;
+    opacity:.115;
+    transform:translateY(-50%);
+  }
+}
+/* Preserve the foreground text contrast in both themes without a white artwork tile. */
+html[data-theme="dark"] .ref-hero .s8-hero-art { background:transparent; }
+.ref-project-top.contained img[src$="skillforge-official.jpg"],
+.case-art .project-identity-logo img[src$="skillforge-official.jpg"] {
+  object-fit:contain;
+  border-radius:0;
+}
