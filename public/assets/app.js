@@ -15,7 +15,7 @@
  document.querySelectorAll('.wordmark').forEach(mark=>{
    if(mark.querySelector('img'))return;
    const icon=document.createElement('img');
-   icon.src='/assets/s8-approved-preview.svg';
+   icon.src='/assets/s8-original-transparent.webp';
    icon.width=42;icon.height=38;icon.alt='';icon.decoding='async';icon.setAttribute('aria-hidden','true');
    mark.insertBefore(icon,mark.firstChild);
  });
