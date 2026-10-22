@@ -38,9 +38,49 @@
    syncTheme();
  });
  menu?.appendChild(themeButton);
+
+ // The portfolio consumes only publicly published book metadata from the Trading Library.
+ // On an unavailable feed, keep the original verified book as the visible fallback.
+ const shelf=document.getElementById('portfolioBooks');
+ if(shelf){
+   const source='https://library.slttradehub.trade/api/portfolio-books';
+   fetch(source,{mode:'cors',credentials:'omit',signal:AbortSignal.timeout(9000)})
+     .then(r=>{if(!r.ok)throw Error('catalogue unavailable');return r.json();})
+     .then(data=>{
+       if(!Array.isArray(data.books)||!data.books.length)return;
+       const cards=document.createDocumentFragment();let valid=0;
+       for(const entry of data.books.slice(0,12)){
+         if(!entry||typeof entry.title!=='string'||typeof entry.url!=='string')continue;
+         let url,imageUrl;
+         try{url=new URL(entry.url);if(url.protocol!=='https:'||url.hostname!=='library.slttradehub.trade')continue;
+           imageUrl=new URL(entry.cover_url,source);
+           if(imageUrl.protocol!=='https:')continue;
+         }catch{continue;}
+         const card=document.createElement('article');card.className='portfolio-book';
+         const img=document.createElement('img');img.src=imageUrl.href;img.alt=entry.title+' book cover';img.loading='lazy';
+         const copy=document.createElement('div'),kind=document.createElement('span');kind.className='book-type';kind.textContent=entry.category||'Trading book';
+         const title=document.createElement('h3');title.textContent=entry.title+(entry.subtitle?' — '+entry.subtitle:'');
+         const summary=document.createElement('p');summary.textContent=(entry.description||'Explore this title in the Trading Library.').slice(0,240);
+         const link=document.createElement('a');link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Explore this book ↗';
+         copy.append(kind,title,summary,link);card.append(img,copy);cards.append(card);valid++;
+       }
+       if(valid)shelf.replaceChildren(cards);
+     })
+     .catch(()=>{/* Keep the source-backed static book fallback. */});
+ }
+
  const form=document.getElementById('enquiryForm');if(!form)return;
  const status=document.getElementById('formStatus'),btn=form.querySelector('button[type=submit]'),mount=document.getElementById('turnstileMount');
  const params=new URLSearchParams(location.search),kind=params.get('type');if(['project','partnership','consultation','general'].includes(kind))form.elements.kind.value=kind;
+ const projectSlug=params.get('project')||'';
+ const knownProjects={'global-webstores':'Global Webstores','homefit-challenge':'HomeFit Challenge','praylume':'Praylume','my-rp':'MY-RP','slt-trade-hub':'SLT Trade Hub','letterhead-engine':'Letterhead Engine','unileh-print-hub':'Unilesh Print Hub','meta-receipt-engine':'MetaForge Receipt Engine','rare-root-collections':'Rare Root Collections','afrinethub':'AfriNet Hub','beccatee-atelier':'Beccatee Atelier','crispykaras':'SMT Crispy Akaras','skillforge-correction':'SkillForge Digital','projectbiuld':'ResearchHub','slttn':'SLT Trading Library'};
+ if(Object.hasOwn(knownProjects,projectSlug)){
+   const title=knownProjects[projectSlug];
+   const banner=document.getElementById('projectInterest');
+   if(banner){banner.hidden=false;banner.textContent='Inspired by: '+title;}
+   form.elements.kind.value='project';
+   if(!form.elements.message.value)form.elements.message.value='I saw '+title+' on SMTCRE8 and would like to discuss a related project. My idea is: ';
+ }
  let enabled=false,widgetId=null;
  const msg=(text,good=false)=>{status.textContent=text;status.className='form-status '+(good?'ok':'error');};
  const loadScript=()=>new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';s.async=true;s.defer=true;s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});
