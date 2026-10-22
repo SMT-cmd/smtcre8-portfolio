@@ -34,8 +34,8 @@ test('work directory indexes SkillForge projects and proper brand assets',()=>{
 test('original extracted S8 and SkillForge source artwork are published',()=>{
  const homepage=read('public/index.html');
  const directory=read('public/work/index.html');
- assert.match(homepage,/s8-original-transparent\\.webp/);
- for (const page of [homepage,directory]) assert.match(page,/assets\\/projects\\/skillforge-official\\.jpg/);
+ assert.ok(homepage.includes('/assets/s8-original-transparent.webp'));
+ for (const page of [homepage,directory]) assert.ok(page.includes('/assets/projects/skillforge-official.jpg'));
  const webp=readFileSync(new URL('../public/assets/s8-original-transparent.webp',import.meta.url));
  assert.equal(webp.subarray(0,4).toString(),'RIFF');
  assert.equal(webp.subarray(8,12).toString(),'WEBP');
