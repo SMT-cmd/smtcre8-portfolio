@@ -18,7 +18,7 @@ test('homepage uses approved S8 and exposes trading books',()=>{
 test('project directory uses official local assets with valid case-study routes',()=>{
  const work=readFileSync(join(pub,'work','index.html'),'utf8');
  const all=[...work.matchAll(/class="case-card"/g)];
- assert.equal(all.length,15);
+ assert.equal(all.length,19);
  assert.doesNotMatch(work,/unverified release|no verified public launch/i);
  for(const [,asset] of work.matchAll(/src="(\/assets\/projects\/[^"]+)"/g)){
    assert.ok(readFileSync(join(pub,asset.replace(/^\//,''))).byteLength>0,'missing project asset '+asset);
