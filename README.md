@@ -16,11 +16,11 @@ No private source repository URL, env var, credentials, deployment secrets or pr
 
 ## Deployment
 
-**Cloudflare Pages Git integration (preferred)**: Create a separate GitHub repo (example `SMT-cmd/smtcre8-portfolio`), push this directory to its root, then Cloudflare > Workers & Pages > Create Pages > Connect to Git. Select that repo, main branch, no framework, build command blank, output directory `public`. Do not point Cloudflare at any product repo. Configure Pages Functions deployment via the `functions/` folder.
+**Git-integrated production deployment:** `https://smtcre8.pages.dev/` is deployed as Cloudflare Pages project `smtcre8` from the dedicated `SMT-cmd/smtcre8-portfolio` repository (`main` branch). Build command is blank and output directory is `public/`; Pages Functions deploy from `functions/`. Other project repositories and hosting are not deployment sources.
 
-**Destination account selected by the owner:** `alongeoluwatimilehin1@gmail.com`. The D1 database `smtcre8-enquiries` (`fea08487-5e5d-4570-8211-3e7bc00cdda1`) and Turnstile widget `SMTCRE8 portfolio enquiries` (site key `0x4AAAAAAFgf3sPfMg6TJFOp`) have been created and verified there. GitHub repository creation is still required; the connected GitHub tool cannot create repositories. GitHub connection authorization must be checked in the authenticated Cloudflare UI. Do not start a Pages Direct Upload project if Git integration is desired; Cloudflare documents say a Direct Upload project cannot later switch to Git integration. A plain upload of just the HTML does not create the backend.
+**Destination account selected by the owner:** `alongeoluwatimilehin1@gmail.com`. The D1 database `smtcre8-enquiries` (`fea08487-5e5d-4570-8211-3e7bc00cdda1`) and Turnstile widget `SMTCRE8 portfolio enquiries` (site key `0x4AAAAAAFgf3sPfMg6TJFOp`) have been created and verified there. The dedicated GitHub repository exists, the Pages GitHub source is connected, and the first production deployment succeeded. Do not start a Pages Direct Upload project if Git integration is desired; Cloudflare documents say a Direct Upload project cannot later switch to Git integration. A plain upload of just the HTML does not create the backend.
 
-Provision a dedicated D1 database and bind it as `ENQUIRIES_DB` to both production and preview. Apply `migrations/0001_enquiries.sql` to D1 before opening the form. Create a Cloudflare Turnstile widget for the portfolio hostname(s). Add Pages environment variables / secrets:
+The dedicated D1 database and schema have been provisioned and bound to production and preview as `ENQUIRIES_DB`. The Turnstile widget exists for `smtcre8.pages.dev`. The following Pages environment variables / secrets apply:
 
 | key | kind | notes |
 |---|---|---|
@@ -57,6 +57,6 @@ See `PROJECT-VERIFICATION.md`, `BRAND-SYSTEM.md`, and `DEPLOYMENT-GATES.md`.
 - Owner selected Cloudflare account `alongeoluwatimilehin1@gmail.com`. Existing Pages projects `homefits` and `praylume-staging` left untouched.
 - Dedicated D1 database provisioned and `migrations/0001_enquiries.sql` applied. The table and 2 indexes were queried successfully.
 - Turnstile widget provisioned only for planned `smtcre8.pages.dev` host. Its secret is not in this repository; retrieve securely from the Cloudflare widget when binding Pages secrets. Ensure site hostname and Turnstile verifier hostname agree.
-- The suggested Pages name is `smtcre8`; final domain only becomes valid after successful deployment. If unavailable, change the Turnstile hostname allowlist to the actual Pages URL.
-- Tests include security failure cases and a simulated success path; no live enquiry has been sent. `npm test`; then on a live deployment `node scripts/qa-live.mjs https://smtcre8.pages.dev`.
+- The active Pages project is `smtcre8`, with Cloudflare production domain `https://smtcre8.pages.dev/`.
+- GitHub Actions and local tests passed. Pages deployed successfully, including 29 static assets and compiled Functions. Cloudflare browser rendering fetched homepage and work directory; its rate limit prevented checking further paths in that session.\n- **Form not yet accepting enquiries:** `TURNSTILE_SECRET` must still be securely set as encrypted Cloudflare Pages secret in both production and preview. Never paste it into GitHub or site HTML. After setting the secret, run a consenting real submission and verify D1 persistence and restricted admin access.\n- `npm test`; then `node scripts/qa-live.mjs https://smtcre8.pages.dev` where outbound HTTPS is available.
 - `.github/workflows/quality.yml` runs tests on push and PR. It does **not** deploy or alter any product repository. GitHub Actions results are not yet available.
