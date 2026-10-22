@@ -43,3 +43,34 @@ test('original extracted S8 and SkillForge source artwork are published',()=>{
  const jpeg=readFileSync(new URL('../public/assets/projects/skillforge-official.jpg',import.meta.url));
  assert.equal(jpeg[0],0xff); assert.equal(jpeg[1],0xd8);
 });
+
+
+test('responsive S8 does not consume a second grid row on small screens', () => {
+ const html=read('public/index.html');
+ const css=read('public/assets/styles.css');
+ assert.match(html, /class="s8-hero-art" aria-hidden="true"/);
+ assert.match(html, /src="\/assets\/s8-original-transparent.webp"/);
+ const mobile=css.slice(css.lastIndexOf('/* 2026-10-22: The original S8'));
+ assert.match(mobile, /@media \(max-width:950px\)/);
+ assert.match(mobile, /\.ref-hero \{\s*display:block/);
+ assert.match(mobile, /\.ref-hero \.s8-hero-art \{\s*position:absolute/);
+ assert.match(mobile, /\.ref-hero \.s8-hero-art img \{[\s\S]*?opacity:/);
+ assert.match(mobile, /@media \(max-width:540px\)/);
+ assert.match(read('public/assets/app.js'), /icon\.src='\/assets\/s8-original-transparent\.webp'/);
+});
+test('original repository identity files are preserved byte-for-byte', async () => {
+ const {createHash}=await import('node:crypto');
+ const gitSha=bytes=>createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
+ const path='./';
+ const root=new URL('../public/assets/projects/',import.meta.url);
+ assert.equal(gitSha(readFileSync(new URL('skillforge-official.jpg',root))),
+   '69b600e74bef2b3669518caed0ec9093ae136e68', 'SkillForge JPEG must match the upstream logo');
+ assert.equal(gitSha(readFileSync(new URL('naturally-tiwa-official.png',root))),
+   '0a9077bf0f9bf99215eb0df3b89c0c66f9383070','Naturally Tiwa PNG must match the source');
+ for(const page of [read('public/index.html'),read('public/work/index.html')]){
+   assert.match(page,/\/assets\/projects\/skillforge-official\.jpg/);
+   assert.match(page,/\/assets\/projects\/naturally-tiwa-official\.png/);
+ }
+ const directory=read('public/work/index.html');
+ assert.ok(!directory.includes('<option value="Community">Community</option><option value="Community">'));
+});
