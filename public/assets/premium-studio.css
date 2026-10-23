@@ -287,10 +287,10 @@ html[data-theme="dark"] .studio-detail .detail-visual,html[data-theme="dark"] .s
 .studio-project-grid .stage-browser-chrome i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#ffa68d}
 .studio-project-grid .stage-browser-chrome i:nth-child(2){background:#efce7c}
 .studio-project-grid .stage-browser-chrome i:nth-child(3){background:#88cfb5}
-.studio-project-grid .stage-browser-chrome span{font-size:7px;font-weight:800;color:#7086a1;letter-spacing:.07em;margin-left:auto}
+.studio-project-grid .stage-browser-chrome span{font-size:7px;font-weight:800;color:#7086a1;letter-spacing:.07em;margin-left:auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .studio-project-grid .ref-project-top .stage-capture img{
  display:block;width:100%;height:calc(100% - 19px);max-width:none;max-height:none;
- object-fit:cover;object-position:top;position:static;padding:0!important;border-radius:0;filter:none;
+ object-fit:contain;object-position:center top;position:static;padding:0!important;border-radius:0;filter:none;background:#fff;
 }
 .studio-project-grid .ref-project-top img.stage-brand-mark{
  position:absolute;right:18px;bottom:12px;z-index:3;max-height:42px;max-width:76px;width:auto;height:auto;object-fit:contain;padding:4px!important;
@@ -300,7 +300,7 @@ html[data-theme="dark"] .studio-detail .detail-visual,html[data-theme="dark"] .s
 .studio-project-grid .ref-project[data-brand="skillforge"] .ref-project-top img.stage-brand-mark{max-width:41px;max-height:41px;padding:2px!important}
 .studio-device .device-art.device-art-screen{height:183px;border-color:#c6e6ff5c;background:#fff;margin:6px 9px;display:block}
 .studio-device .device-art.device-art-screen img{
- display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:top;border:0;filter:none;
+ display:block;width:100%;height:100%;max-height:none;object-fit:contain;object-position:center top;border:0;filter:none;background:#fff;
 }
 .studio-device .device-bars{padding-top:11px}
 @media(max-width:760px){
@@ -317,8 +317,10 @@ html[data-theme="dark"] .studio-detail .detail-visual,html[data-theme="dark"] .s
 
 /* Dual discipline positioning: clear commercial pathways without hype or fabricated awards. */
 .studio-commercial-intro{padding-block:78px 86px}
-.studio-commercial-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px}
-.studio-commercial-head h2{font-size:clamp(33px,4.3vw,57px);letter-spacing:-.075em;line-height:1.13;margin:0}
+/* Keep the section label directly above the headline instead of separating them across the row. */
+.studio-commercial-head{display:grid;justify-items:start;align-items:start;gap:11px;margin-bottom:28px;text-align:left;min-width:0}
+.studio-commercial-head .studio-eyebrow{margin:0}
+.studio-commercial-head h2{font-size:clamp(33px,4.3vw,57px);letter-spacing:-.075em;line-height:1.13;margin:0;max-width:100%;overflow-wrap:break-word;text-wrap:balance}
 .studio-commercial-head h2 span{color:var(--blue)}
 .studio-commercial-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .studio-commercial-card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;padding:37px 36px;min-height:315px;border-radius:23px;border:1px solid var(--line);box-shadow:0 14px 44px #112b5e13;background:var(--panel)}
@@ -381,7 +383,7 @@ html[data-theme="dark"] .studio-detail .detail-visual,html[data-theme="dark"] .s
 }
 @media(max-width:760px){
  .studio-commercial-intro{padding-block:57px}
- .studio-commercial-head h2{font-size:36px}
+ .studio-commercial-head h2{font-size:clamp(29px,7.8vw,36px)}
  .studio-commercial-grid{grid-template-columns:1fr;gap:14px}
  .studio-commercial-card{min-height:270px;padding:25px;border-radius:18px}
  .studio-commercial-card h3{font-size:29px}
