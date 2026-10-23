@@ -43,3 +43,21 @@ test('project enquiry carries project identity without exposing form secrets',()
  assert.match(js,/params\.get\('project'\)/);
  assert.match(js,/Object\.hasOwn\(knownProjects,projectSlug\)/);
 });
+
+test('SMTCRE8 share card and forex tutoring commercial positioning',()=>{
+ const home=readFileSync(join(pub,'index.html'),'utf8'),about=readFileSync(join(pub,'about','index.html'),'utf8'),work=readFileSync(join(pub,'work','index.html'),'utf8');
+ assert.match(home,/Digital innovator/);
+ assert.match(home,/id="services"/);
+ assert.match(home,/studio-service-grid/);
+ assert.match(home,/Forex tutoring/);
+ assert.match(home,/Forex tutoring is educational/);
+ assert.match(about,/Digital innovator/);
+ assert.match(about,/market structure and price action/);
+ assert.match(work,/forex education/i);
+ for(const doc of [home,about,work]){
+  assert.match(doc,/property="og:image" content="https:\/\/smtcre8\.pages\.dev\/assets\/social-preview\.jpg"/);
+  assert.match(doc,/name="twitter:card" content="summary_large_image"/);
+ }
+ const bytes=readFileSync(join(pub,'assets','social-preview.jpg'));
+ assert.ok(bytes.length>5000);assert.equal(bytes[0],255);assert.equal(bytes[1],216);
+});

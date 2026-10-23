@@ -313,3 +313,20 @@ html[data-theme="dark"] .studio-detail .detail-visual,html[data-theme="dark"] .s
  .studio-project-grid .ref-project[data-brand="global"] .ref-project-top img.stage-brand-mark{max-width:52px;max-height:38px}
  .studio-project-grid .ref-project[data-brand="skillforge"] .ref-project-top img.stage-brand-mark{max-width:29px;max-height:29px}
 }
+
+/* Commercial SMTCRE8 services: compact, mobile-friendly, readable. */
+.studio-services{padding-block:74px 79px}
+.studio-services .ref-heading{margin-bottom:27px}
+.studio-service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.studio-service-card{display:flex;flex-direction:column;min-height:260px;padding:27px;border-radius:19px;background:var(--panel);border:1px solid var(--line);box-shadow:0 12px 36px rgba(8,45,100,.08)}
+.studio-service-featured{background:linear-gradient(147deg,#103b7b,#06192d);border-color:#237fc0;color:#fff}
+.studio-service-card .service-number{font-size:10px;font-weight:800;color:var(--blue);letter-spacing:.14em;margin-bottom:19px}
+.studio-service-featured .service-number{color:#65dcff}
+.studio-service-card h3{font-size:clamp(20px,2vw,28px);line-height:1.22;letter-spacing:-.045em;margin:0 0 12px}
+.studio-service-card p{font-size:13px;line-height:1.73;color:var(--muted);margin:0 0 21px}
+.studio-service-featured p{color:#ccddf0}
+.studio-service-card a{margin-top:auto;font-size:13px;font-weight:800;color:var(--blue)}
+.studio-service-featured a{color:#70d8ff}
+.studio-services .service-clarifier{font-size:11px;color:var(--muted);margin:17px 0 0}
+@media(max-width:760px){.studio-services{padding-block:55px 60px}.studio-service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.studio-service-card{padding:19px;min-height:0;border-radius:15px}.studio-service-card h3{font-size:19px}.studio-service-card p{font-size:12px}.studio-service-card:nth-child(3){grid-column:span 2}}
+@media(max-width:420px){.studio-service-card{padding:15px}.studio-service-card h3{font-size:17px}.studio-service-card p{font-size:11px}.studio-service-card a{font-size:11px}}
