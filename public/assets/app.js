@@ -3,6 +3,11 @@
  const toggle = document.getElementById('navToggle');
  toggle?.addEventListener('click', () => { const open = menu.classList.toggle('open'); toggle.setAttribute('aria-expanded', String(open)); });
  menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {menu.classList.remove('open');toggle?.setAttribute('aria-expanded','false');}));
+ // Keep forex education discoverable across all authored pages, not just the homepage.
+ if(menu && !menu.querySelector('a[href="/forex-education/"]')){
+   const learn=document.createElement('a');learn.href='/forex-education/';learn.textContent='Forex education';
+   const first=menu.querySelector('a');first?.insertAdjacentElement('afterend',learn);
+ }
  const path = location.pathname.replace(/\/$/,'') || '/';
  menu?.querySelectorAll('a').forEach(a => {const href=new URL(a.href).pathname.replace(/\/$/,'')||'/'; if(href===path||(path.startsWith('/work/')&&href==='/work')) a.setAttribute('aria-current','page');});
  const search = document.getElementById('projectSearch');
@@ -73,6 +78,15 @@
  const status=document.getElementById('formStatus'),btn=form.querySelector('button[type=submit]'),mount=document.getElementById('turnstileMount');
  const params=new URLSearchParams(location.search),kind=params.get('type');if(['project','partnership','consultation','general'].includes(kind))form.elements.kind.value=kind;
  const projectSlug=params.get('project')||'';
+ const interest=params.get('topic');
+ if(interest==='forex-education'){
+   form.elements.kind.value='consultation';
+   if(!form.elements.message.value)form.elements.message.value='I would like to enquire about forex tutoring or learning materials. My current level and learning goals are: ';
+ }else if(interest==='digital-build'){
+   form.elements.kind.value='project';
+   if(!form.elements.message.value)form.elements.message.value='I would like to discuss building a website, application or digital product. My idea and requirements are: ';
+ }
+
  const knownProjects={'global-webstores':'Global Webstores','homefit-challenge':'HomeFit Challenge','praylume':'Praylume','my-rp':'MY-RP','slt-trade-hub':'SLT Trade Hub','letterhead-engine':'Letterhead Engine','unileh-print-hub':'Unilesh Print Hub','meta-receipt-engine':'MetaForge Receipt Engine','rare-root-collections':'Rare Root Collections','afrinethub':'AfriNet Hub','beccatee-atelier':'Beccatee Atelier','crispykaras':'SMT Crispy Akaras','skillforge-correction':'SkillForge Digital','projectbiuld':'ResearchHub','slttn':'SLT Trading Library'};
  if(Object.hasOwn(knownProjects,projectSlug)){
    const title=knownProjects[projectSlug];
