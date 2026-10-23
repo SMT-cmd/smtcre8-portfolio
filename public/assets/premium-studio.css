@@ -243,3 +243,28 @@ html[data-theme="dark"] .studio-directory .case-art .project-identity strong{col
 @media(prefers-reduced-motion:reduce){
   .studio-project-grid .ref-project,.studio-directory .case-card{transition:none}
 }
+
+
+/* Case-study and informational pages — consistent depth, deliberate white space. */
+.studio-detail .page-hero{position:relative;padding-top:88px;padding-bottom:58px}
+.studio-detail .page-hero::before{content:"";position:absolute;right:-4%;top:3%;height:260px;width:260px;border-radius:50%;background:radial-gradient(circle,#45c7ff25,transparent 70%);pointer-events:none}
+.studio-detail .page-hero h1{color:var(--ink);max-width:1040px}
+.studio-detail .back{color:var(--blue);font-weight:750}
+.studio-detail .case-detail-grid{gap:18px}
+.studio-detail .detail-visual{border-color:var(--line);background:linear-gradient(135deg,#e2f2ff,#a5d4f7);border-radius:20px;min-height:400px;box-shadow:var(--studio-shadow)}
+.studio-detail .detail-visual .project-identity-logo{background:radial-gradient(ellipse at center,#c3edff,#b4dffd 70%,#8dc1eb);min-height:400px}
+.studio-detail .detail-visual .project-identity-logo img{max-height:240px;max-width:74%;height:auto;object-fit:contain;filter:drop-shadow(0 22px 28px rgba(7,51,102,.16))}
+.studio-detail .status-panel{border-radius:20px;background:var(--panel);border-color:var(--line);box-shadow:0 14px 42px #081c3410}
+.studio-detail .case-narrative{gap:18px 22px;padding-block:80px}
+.studio-detail .case-narrative>div{border:1px solid var(--line);background:var(--panel);border-radius:17px;padding:29px;box-shadow:0 8px 32px #0823470a}
+.studio-detail .case-narrative h2{font-size:clamp(24px,2.8vw,34px)}
+.studio-detail .case-next{margin-top:20px}
+.studio-detail .contact-form{box-shadow:var(--studio-shadow);border-radius:20px}
+.studio-detail .about-monogram{border-radius:23px}
+html[data-theme="dark"] .studio-detail .detail-visual,html[data-theme="dark"] .studio-detail .detail-visual .project-identity-logo{background:linear-gradient(135deg,#143966,#0a2444)}
+@media(max-width:760px){
+ .studio-detail .case-narrative{grid-template-columns:1fr;padding-block:45px}
+ .studio-detail .case-narrative>div{padding:21px}
+ .studio-detail .detail-visual,.studio-detail .detail-visual .project-identity-logo{min-height:320px}
+ .studio-detail .page-hero{padding-top:65px}
+}
