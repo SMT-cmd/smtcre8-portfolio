@@ -86,7 +86,7 @@ test('premium editorial homepage features authentic projects and responsive bent
  assert.match(home,/class="ref-grid studio-project-grid"/);
  assert.equal((home.match(/class="ref-project(?: spotlight)?"/g)||[]).length,7);
  assert.match(home,/class="studio-device-display"/);
- assert.match(home,/Brand presentation mockups using source logos—not screenshots/);
+ assert.match(home,/Public page screenshots presented in editorial device frames/);
  assert.match(home,/src="\/assets\/projects\/metaforge-icon\.svg"/);
  assert.match(work,/src="\/assets\/projects\/metaforge-icon\.svg"/);
  assert.match(css,/\.studio-project-grid\.ref-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
@@ -103,4 +103,20 @@ test('case studies inherit the same premium stylesheet',async()=>{
   const html=read('public/work/'+slug+'/index.html');
   assert.match(html,/premium-studio\.css/,'missing premium styles on '+slug);
  }
+});
+
+
+test('actual Global Webstores Explore and SkillForge homepage captures are checked in',()=>{
+ const home=read('public/index.html');
+ const css=read('public/assets/premium-studio.css');
+ for(const f of ['global-webstores-explore-capture.jpg','skillforge-website-capture.jpg']){
+  const bytes=readFileSync(new URL('../public/assets/projects/'+f,import.meta.url));
+  assert.ok(bytes.length>5000, 'not a meaningful captured image: '+f);
+  assert.equal(bytes[0],0xff); assert.equal(bytes[1],0xd8);
+  assert.ok(home.includes(f),'homepage should feature public site capture: '+f);
+ }
+ assert.match(home,/Screenshot of the public Global Webstores Explore page/);
+ assert.match(home,/Screenshot of the public SkillForge Digital homepage/);
+ assert.match(css,/\.stage-capture/);
+ assert.match(css,/\.device-art\.device-art-screen/);
 });
