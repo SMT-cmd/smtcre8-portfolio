@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 test('featured products follow the approved priority', () => {
  const page=read('public/index.html');
- const featured=page.split('class="ref-grid"')[1].split('</div>\n   <p class="ref-note">')[0];
+ const featured=page.split('class="ref-grid studio-project-grid"')[1]?.split('<p class="ref-note">')[0] || '';
  const names=['Global Webstores','HomeFit Challenge','SkillForge Digital','Praylume','SLT Trade Hub'];
  const positions=names.map(name=>featured.indexOf('<h3>'+name+'</h3>'));
  assert.ok(positions.every(position=>position>=0), 'all priority projects must be featured');
@@ -24,10 +24,10 @@ test('work directory indexes SkillForge projects and proper brand assets',()=>{
  for(const name of ['SkillForge Digital','SkillForge Trading Journal','SkillForge Portal','Naturally Tiwa Skincare']) assert.ok(directory.includes('<h3>'+name+'</h3>'), name);
  for(const page of [homepage,directory]){
   assert.ok(page.includes('/assets/projects/homefit-official.svg'));
-  assert.ok(page.includes('/assets/projects/metaforge-brand.svg'));
+  assert.ok(page.includes('/assets/projects/metaforge-icon.svg'));
  }
  assert.ok(read('public/assets/projects/homefit-official.svg').includes('data:image/webp;base64'));
- assert.ok(read('public/assets/projects/metaforge-brand.svg').includes('MetaForge'));
+ assert.ok(read('public/assets/projects/metaforge-icon.svg').includes('forgePrimary'));
 });
 
 
@@ -67,10 +67,40 @@ test('original repository identity files are preserved byte-for-byte', async () 
    '69b600e74bef2b3669518caed0ec9093ae136e68', 'SkillForge JPEG must match the upstream logo');
  assert.equal(gitSha(readFileSync(new URL('naturally-tiwa-official.png',root))),
    '0a9077bf0f9bf99215eb0df3b89c0c66f9383070','Naturally Tiwa PNG must match the source');
- for(const page of [read('public/index.html'),read('public/work/index.html')]){
+ for(const page of [read('public/index.html'),read('public/work/index.html')]) {
    assert.match(page,/\/assets\/projects\/skillforge-official\.jpg/);
-   assert.match(page,/\/assets\/projects\/naturally-tiwa-official\.png/);
  }
+ assert.match(read('public/work/index.html'),/\/assets\/projects\/naturally-tiwa-official\.png/);
  const directory=read('public/work/index.html');
  assert.ok(!directory.includes('<option value="Community">Community</option><option value="Community">'));
+});
+
+
+test('premium editorial homepage features authentic projects and responsive bento gallery',()=>{
+ const home=read('public/index.html');
+ const work=read('public/work/index.html');
+ const css=read('public/assets/premium-studio.css');
+ assert.match(home,/premium-studio\.css/);
+ assert.match(work,/premium-studio\.css/);
+ assert.match(home,/class="wrap ref-hero studio-hero"/);
+ assert.match(home,/class="ref-grid studio-project-grid"/);
+ assert.equal((home.match(/class="ref-project(?: spotlight)?"/g)||[]).length,7);
+ assert.match(home,/class="studio-device-display"/);
+ assert.match(home,/Brand presentation mockups using source logos—not screenshots/);
+ assert.match(home,/src="\/assets\/projects\/metaforge-icon\.svg"/);
+ assert.match(work,/src="\/assets\/projects\/metaforge-icon\.svg"/);
+ assert.match(css,/\.studio-project-grid\.ref-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(css,/\.studio-directory \.projects-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(css,/\.studio-hero \.s8-hero-art\{position:absolute/);
+ assert.doesNotMatch(home,/50\+|100\+|99%|award-winning creative studio/i,
+   'do not invent portfolio awards, user counts or achievements');
+});
+test('case studies inherit the same premium stylesheet',async()=>{
+ const {readdirSync}=await import('node:fs');
+ const names=readdirSync(new URL('../public/work/',import.meta.url),{withFileTypes:true})
+  .filter(d=>d.isDirectory()).map(d=>d.name);
+ for(const slug of names){
+  const html=read('public/work/'+slug+'/index.html');
+  assert.match(html,/premium-studio\.css/,'missing premium styles on '+slug);
+ }
 });
