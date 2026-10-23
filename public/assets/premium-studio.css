@@ -268,3 +268,48 @@ html[data-theme="dark"] .studio-detail .detail-visual,html[data-theme="dark"] .s
  .studio-detail .detail-visual,.studio-detail .detail-visual .project-identity-logo{min-height:320px}
  .studio-detail .page-hero{padding-top:65px}
 }
+
+
+/* Genuine public-site captures; no fabricated product UIs. */
+.studio-project-grid .ref-project[data-brand="global"]{--stage-top:#b9e3ff;--stage-bottom:#225ca2}
+.studio-project-grid .ref-project[data-brand="global"] .ref-project-top::before{
+ background:radial-gradient(ellipse at 55% 35%,#e6f9ff,transparent 70%),linear-gradient(135deg,#bde8ff,#2777d3)
+}
+.studio-project-grid .ref-project-top .stage-capture{
+ position:absolute;z-index:1;top:23px;left:22px;right:22px;bottom:22px;
+ border:1px solid rgba(229,242,255,.7);border-radius:11px;overflow:hidden;
+ background:#fff;box-shadow:0 16px 35px #00182c66;transform:perspective(600px) rotateY(-5deg) rotateX(3deg);
+}
+.studio-project-grid .ref-project[data-brand="skillforge"] .stage-capture{
+ left:16px;right:16px;transform:perspective(600px) rotateY(4deg) rotateX(3deg);
+}
+.studio-project-grid .stage-browser-chrome{height:19px;padding:5px 9px;background:#eef5ff;display:flex;align-items:center;gap:4px;border-bottom:1px solid #cfdeea}
+.studio-project-grid .stage-browser-chrome i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#ffa68d}
+.studio-project-grid .stage-browser-chrome i:nth-child(2){background:#efce7c}
+.studio-project-grid .stage-browser-chrome i:nth-child(3){background:#88cfb5}
+.studio-project-grid .stage-browser-chrome span{font-size:7px;font-weight:800;color:#7086a1;letter-spacing:.07em;margin-left:auto}
+.studio-project-grid .ref-project-top .stage-capture img{
+ display:block;width:100%;height:calc(100% - 19px);max-width:none;max-height:none;
+ object-fit:cover;object-position:top;position:static;padding:0!important;border-radius:0;filter:none;
+}
+.studio-project-grid .ref-project-top img.stage-brand-mark{
+ position:absolute;right:18px;bottom:12px;z-index:3;max-height:42px;max-width:76px;width:auto;height:auto;object-fit:contain;padding:4px!important;
+ background:rgba(255,255,255,.94);border:1px solid #d5e8f7;border-radius:9px;box-shadow:0 6px 16px #08224735;filter:none
+}
+.studio-project-grid .ref-project[data-brand="global"] .ref-project-top img.stage-brand-mark{max-width:84px;max-height:52px}
+.studio-project-grid .ref-project[data-brand="skillforge"] .ref-project-top img.stage-brand-mark{max-width:41px;max-height:41px;padding:2px!important}
+.studio-device .device-art.device-art-screen{height:183px;border-color:#c6e6ff5c;background:#fff;margin:6px 9px;display:block}
+.studio-device .device-art.device-art-screen img{
+ display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:top;border:0;filter:none;
+}
+.studio-device .device-bars{padding-top:11px}
+@media(max-width:760px){
+ .studio-project-grid .ref-project-top .stage-capture{left:10px;right:10px;top:22px;bottom:17px;transform:rotate(-1deg)}
+ .studio-project-grid .ref-project[data-brand="skillforge"] .stage-capture{left:9px;right:9px;transform:rotate(1deg)}
+ .studio-project-grid .stage-browser-chrome{height:16px;padding:4px 5px}
+ .studio-project-grid .stage-browser-chrome span{font-size:5px}
+ .studio-project-grid .ref-project-top .stage-capture img{height:calc(100% - 16px)}
+ .studio-project-grid .ref-project-top img.stage-brand-mark{right:8px;bottom:8px;max-width:45px;max-height:34px;border-radius:6px}
+ .studio-project-grid .ref-project[data-brand="global"] .ref-project-top img.stage-brand-mark{max-width:52px;max-height:38px}
+ .studio-project-grid .ref-project[data-brand="skillforge"] .ref-project-top img.stage-brand-mark{max-width:29px;max-height:29px}
+}
